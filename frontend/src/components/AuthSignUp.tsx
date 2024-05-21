@@ -3,10 +3,13 @@ import axios from "axios";
 import { ChangeEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom"
 import { BACKEND_URL } from "../config";
+import { SummaryApi } from "../common";
 
+SummaryApi.signUp
 
+export const Auth = () => {
 
-export const Auth = ({type} : {type : "signup" | "signin"}) => {
+    
 
     const navigate = useNavigate();
     const [postInputs, setpostInputs] =  useState<SignupInput>({
@@ -17,12 +20,13 @@ export const Auth = ({type} : {type : "signup" | "signin"}) => {
 
     async function sendRequest() {
         try{
-            const response = await axios.post(`${BACKEND_URL}/api/v1/user/${type === "signup" ? "signup" : "signin"}`, postInputs)
+            const response = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, postInputs)
+           
             const jwt = response.data.jwt;
             localStorage.setItem("token",jwt)
             navigate("/blogs")
         } catch(e) {
-            alert("Error while signing up")
+            alert("Error while signing up", )
             // alert the user here that the request failed
         }
         
@@ -34,13 +38,13 @@ export const Auth = ({type} : {type : "signup" | "signin"}) => {
             <div>            
                 <div className="px-10 text-center">
                     <div className="font-extrabold text-3xl">
-                        {type === "signin" ? "Login to account" : "Create an account"}
+                        {"Create an account"}
                         
                     </div>
                     <div className="text-slate-400 text-center">
-                        {type === "signin" ? "New to Medium Register?"  : "Already have an account? Login"}
+                        {"Already have an account? Login"}
                         
-                        <Link className="pl-2 underline" to={ type === "signin" ? "/signup" : "/signin"}>Here</Link>
+                        <Link className="pl-2 underline" to={"/signin"}>Here</Link>
                     </div>
                     
                 </div>
@@ -48,12 +52,12 @@ export const Auth = ({type} : {type : "signup" | "signin"}) => {
 
                 <div className="pt-4 min-w-96">
                     
-                    {type === "signup" ? <LabelledInput label="Name" placeholder="John DOe" onChange={(e)=> {
+                    <LabelledInput label="Name" placeholder="John DOe" onChange={(e)=> {
                         setpostInputs(c => ({
                             ...c, 
                             name : e.target.value
                         })) 
-                    }}/> : null}
+                    }}/>
                     
                     <LabelledInput label="username" type="email" placeholder="john@gmail.com" onChange={(e)=> {
                         setpostInputs(c => ({
@@ -69,7 +73,7 @@ export const Auth = ({type} : {type : "signup" | "signin"}) => {
                     }}/>
                     <button onClick={sendRequest} type="button" className="text-white w-full mt-8 bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 
                     font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700
-                     dark:focus:ring-gray-700 dark:border-gray-700">{type === "signup" ? "Sign Up" : "Sign In"}</button>
+                     dark:focus:ring-gray-700 dark:border-gray-700">{"signup"}</button>
 
                 </div>
 
